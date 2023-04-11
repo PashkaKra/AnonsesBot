@@ -24,7 +24,9 @@ bot.on('photo', async msg => {
 	const caption = msg.caption;
 	if(caption){
 		const [title, date] = caption.split('  ', 2);
+
 		if(title && date){
+		const [title1, title2] = title.split('/', 2);
 		const [dateStart, separator, dateEnd] = date.split(/([-и]|(?:AND|OR))/, 3);
 	 
 		photoId = msg.photo[msg.photo.length-1].file_id
@@ -50,8 +52,16 @@ bot.on('photo', async msg => {
 		context.drawImage(Img2, 0, k, width, width);
 		context.fillStyle = "#e85d17";
 		//context.font = `${width/(title.length*1.3)}pt Ralev001`;
-		context.font = `${width/18}pt Ralev001`;
-		context.fillText(title, 25, height+width/10);
+		if(!title2){
+			context.font = `${width/18}pt Ralev001`;
+			context.fillText(title, 25, height+width/10);
+		}
+		else{
+			context.font = `${width/26}pt Ralev001`;
+			context.fillText(title1, 25, height+width/15);
+			context.fillText(title2, 25, height+width/8.5);
+		}
+
 		context.fillStyle = "white";
 		if(!separator){
     		context.font = `${width/17}pt Ralev001`;
