@@ -22,8 +22,16 @@ bot.on('message', (msg) => {
 bot.on('photo', async msg => {
 	const chatId = msg.chat.id;
 	const caption = msg.caption;
+	let k = 1;
 	if(caption){
-		const [title, date] = caption.split('  ', 2);
+		const [Title, date] = caption.split('  ', 2);
+		let [koef, title] = Title.split("|", 2);
+		if(!title){
+			title = koef;
+			koef = 1;
+		}
+		console.log(`koef = ${koef}`);
+		console.log(`tit = ${title}`);
 
 		if(title && date){
 		const [title1, title2] = title.split('/', 2);
@@ -42,7 +50,7 @@ bot.on('photo', async msg => {
 		const height = Img1.height;
 		//const k = width >= height ? (height - width)+width*14/100 : (width - height)*width/2200;
 		const k = (height - width)+width*14/100;
-		console.log(k);
+		//console.log(k);
 		//const k = 150;
 		const canvas = createCanvas(width, height+width*14/100);
 		const context = canvas.getContext('2d');
@@ -53,11 +61,11 @@ bot.on('photo', async msg => {
 		context.fillStyle = "#e85d17";
 		//context.font = `${width/(title.length*1.3)}pt Ralev001`;
 		if(!title2){
-			context.font = `${width/18}pt Ralev001`;
-			context.fillText(title, 25, height+width/10);
+			context.font = `${width*koef/18}pt Ralev001`;
+			context.fillText(title, 25, height-koef+width/10);
 		}
 		else{
-			context.font = `${width/26}pt Ralev001`;
+			context.font = `${width*koef/26}pt Ralev001`;
 			context.fillText(title1, 25, height+width/15);
 			context.fillText(title2, 25, height+width/8.5);
 		}
